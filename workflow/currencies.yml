@@ -1,0 +1,12 @@
+---
+- :name: "Pound sterling"
+  :symbols: [£, GBP]
+
+- :name: "Euro"
+  :symbols: [€, EUR]
+
+- :name: "American dollar"
+  :symbols: [$, US$, USD]
+
+- :name: "New Zealand dollar"
+  :symbols: [NZ$, NZD]

@@ -1,0 +1,2 @@
+require "environment"
+Environment.load

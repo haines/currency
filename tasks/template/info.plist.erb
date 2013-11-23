@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>name</key>
+		<string>Currency</string>
+
+		<key>bundleid</key>
+		<string>nz.org.haines.workflows.currency</string>
+
+		<key>createdby</key>
+		<string>Andrew Haines</string>
+
+		<key>description</key>
+		<string>Converts between currencies</string>
+
+		<key>readme</key>
+		<string></string>
+
+		<key>webaddress</key>
+		<string>http://github.com/haines/currency</string>
+
+		<key>disabled</key>
+		<false/>
+
+		<key>connections</key>
+		<dict>
+			<% conversions.each do |conversion| %>
+				<key><%= conversion.uid %></key>
+				<array>
+					<dict>
+						<key>destinationuid</key>
+						<string><%= output_uid %></string>
+
+						<key>modifiers</key>
+						<integer>0</integer>
+
+						<key>modifiersubtext</key>
+						<string></string>
+					</dict>
+				</array>
+			<% end %>
+		</dict>
+
+		<key>uidata</key>
+		<dict>
+			<% conversions.each_with_index do |conversion, index| %>
+				<key><%= conversion.uid %></key>
+				<dict>
+					<key>ypos</key>
+					<real><%= 110*index + 10 %></real>
+				</dict>
+			<% end %>
+		</dict>
+
+		<key>objects</key>
+		<array>
+			<dict>
+				<key>config</key>
+				<dict>
+					<key>autopaste</key>
+					<false/>
+
+					<key>clipboardtext</key>
+					<string>{query}</string>
+				</dict>
+
+				<key>type</key>
+				<string>alfred.workflow.output.clipboard</string>
+
+				<key>uid</key>
+				<string><%= output_uid %></string>
+
+				<key>version</key>
+				<integer>0</integer>
+			</dict>
+
+			<% conversions.each do |conversion| %>
+				<dict>
+					<key>type</key>
+					<string>alfred.workflow.input.scriptfilter</string>
+
+					<key>uid</key>
+					<string><%= conversion.uid %></string>
+
+					<key>version</key>
+					<integer>0</integer>
+
+					<key>config</key>
+					<dict>
+						<key>keyword</key>
+						<string><%= conversion.symbol %></string>
+
+						<key>script</key>
+						<string>source /etc/profile; ./currency-workflow.rb '<%= conversion.symbol %> ${query}'</string>
+
+						<key>title</key>
+						<string>Convert from <%= conversion.currency_code %></string>
+
+						<key>argumenttype</key>
+						<integer>0</integer>
+
+						<key>escaping</key>
+						<integer>0</integer>
+
+						<key>runningsubtext</key>
+						<string>Converting...</string>
+
+						<key>type</key>
+						<integer>0</integer>
+
+						<key>withspace</key>
+						<false/>
+					</dict>
+				</dict>
+			<% end %>
+		</array>
+	</dict>
+</plist>
